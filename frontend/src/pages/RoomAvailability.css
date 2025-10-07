@@ -1,0 +1,31 @@
+.room-availability {
+  padding: 20px;
+  text-align: center;
+}
+
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.room-card {
+  background: #f4f6f8;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.room-card.available {
+  border-left: 6px solid #4caf50;
+}
+
+.room-card.occupied {
+  border-left: 6px solid #e53935;
+}
+
+.room-card:hover {
+  transform: scale(1.03);
+}
