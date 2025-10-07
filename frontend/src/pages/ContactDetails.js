@@ -2,7 +2,7 @@ function ContactDetails({ isAdmin }) {
   return (
     <div>
       {isAdmin && (
-        <button className="mb-4 px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+        <button className="mb-4 px-3 py-1     bg-yellow-500 text-white rounded hover:bg-yellow-600">
           Edit Contacts
         </button>
       )}
