@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Dashboard.css";
 
 const RoomAvailability = () => {
   const [rooms, setRooms] = useState([]);
@@ -81,7 +80,7 @@ const RoomAvailability = () => {
       <div className="flex justify-between items-center mb-4">
         <div>
           <h2 className="text-2xl font-bold">🏠 Room Availability</h2>
-          <p className="text-gray-600">Check which rooms are available and occupied.</p>
+          <p className="text-gray-600">Check which rooms are available and occupied. </p>
         </div>
         {user.role === "admin" && (
           <button

@@ -25,7 +25,7 @@ async function addOrUpdateUsers() {
     ];
 
     for (let userData of users) {
-      const hashed = await bcrypt.hash(userData.password, 10); // hash password
+      const hashed = await bcrypt.hash(userData.password, 10);
 
       const existingUser = await User.findOne({ email: userData.email });
       if (existingUser) {
