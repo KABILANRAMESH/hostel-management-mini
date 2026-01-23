@@ -24,6 +24,29 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected successfully!"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
+app.get("/api/reset-admin", async (req, res) => {
+  try {
+    const bcrypt = require("bcryptjs");
+    const User = require("./models/User");
+
+    const hashedPassword = await bcrypt.hash("admin123", 10);
+
+    await User.findOneAndUpdate(
+      { email: "admin@gmail.com" },
+      {
+        email: "admin@gmail.com",
+        password: hashedPassword,
+        role: "admin",
+      },
+      { upsert: true }
+    );
+
+    res.send("✅ Admin reset successful | email: admin@gmail.com | password: admin123");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("❌ Admin reset failed");
+  }
+});
 
 // Serve frontend (MUST BE AFTER API ROUTES)
 if (process.env.NODE_ENV === "production") {
