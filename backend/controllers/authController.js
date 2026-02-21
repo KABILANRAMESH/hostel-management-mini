@@ -22,45 +22,18 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
-
-    if (!email || !password || !role) {
-      return res.status(400).json({ error: "Missing fields" });
-    }
+    const { email, password } = req.body;
+    if (!email || !password) return res.status(400).json({ error: "Missing fields" });
 
     const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
+    if (!user) return res.status(400).json({ error: "Invalid credentials" });
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
+    const ok = await bcrypt.compare(password, user.password);
+    if (!ok) return res.status(400).json({ error: "Invalid credentials" });
 
-    // 🔥 FIX: role normalization
-    if (user.role.toLowerCase() !== role.toLowerCase()) {
-      return res.status(403).json({ error: "Role mismatch" });
-    }
-
-    const token = jwt.sign(
-      { id: user._id, role: user.role, name: user.name },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
-
-    res.status(200).json({
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
-    });
+    const token = jwt.sign({ id: user._id, role: user.role, name: user.name }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
   } catch (err) {
-    console.error("Login error:", err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: err.message });
   }
 };
-

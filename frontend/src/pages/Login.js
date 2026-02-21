@@ -62,7 +62,7 @@ function Login() {
 
       {/* Login Card */}
       <div style={styles.card}>
-        <h2 style={styles.title}>🌌 Hostel Portal Login</h2>
+        <h2 style={styles.title}>🌌 HOSTEL Portal Login</h2>
         <form onSubmit={handleLogin}>
           <label style={styles.label}>Email</label>
           <input
