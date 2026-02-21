@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -19,22 +18,16 @@ app.use("/api/contacts", require("./routes/contacts"));
 app.use("/api/laundry", require("./routes/laundry"));
 app.use("/api/biometric", require("./routes/biometric"));
 
+// Health check
+app.get("/", (req, res) => {
+  res.send("Hostel Backend API is running 🚀");
+});
+
 // MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected successfully!"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
-
-// Serve frontend (MUST BE AFTER API ROUTES)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/build")));
-
-  app.get("*", (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, "../frontend/build", "index.html")
-    );
-  });
-}
 
 // Start server
 const PORT = process.env.PORT || 5000;
