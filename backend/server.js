@@ -27,6 +27,10 @@ app.use(express.json());
 /* =========================
    Routes
 ========================= */
+app.get("/test", (req, res) => {
+  res.send("Test route working");
+});
+
 
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/menu", require("./routes/menuRoutes"));
