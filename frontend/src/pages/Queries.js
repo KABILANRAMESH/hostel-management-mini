@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
+import API from "../api";
 const Queries = ({ user }) => {
   const [queries, setQueries] = useState([]);
   const [queryForm, setQueryForm] = useState({
@@ -21,7 +20,7 @@ const Queries = ({ user }) => {
 
   const fetchQueries = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/queries");
+const res = await API.get("/queries");
       setQueries(res.data || []);
     } catch (err) {
       console.error("❌ Error fetching queries:", err);
@@ -37,7 +36,7 @@ const Queries = ({ user }) => {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/queries/add", {
+      const res = await API.post("/queries/add", {
         userId: user?.id || user?._id || "unknown",
         name,
         roll,
@@ -58,7 +57,7 @@ const Queries = ({ user }) => {
     if (feedback === null) return;
 
     try {
-      await axios.put(`http://localhost:5000/api/queries/update/${id}`, {
+      await API.put(`/queries/update/${id}`, {
         status: "Resolved",
         feedback,
       });

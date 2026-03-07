@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api";
 import RoomAvailability from "./RoomAvailability";
 import ContactDetails from "../pages/ContactDetails";
 import Laundry from "../pages/Laundry";
@@ -24,12 +24,11 @@ const Dashboard = () => {
   const [editDay, setEditDay] = useState(null);
   const [form, setForm] = useState({ breakfast: "", lunch: "", dinner: "" });
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/menu")
-      .then((res) => setMeals(res.data || []))
-      .catch((err) => console.error("❌ Error fetching menu:", err));
-  }, []);
+ useEffect(() => {
+  API.get("/menu")
+    .then((res) => setMeals(res.data || []))
+    .catch((err) => console.error("❌ Error fetching menu:", err));
+}, []);
 
   const handleEdit = (day) => {
     setEditDay(day);
@@ -48,8 +47,8 @@ const Dashboard = () => {
         lunch: form.lunch.split(",").map((i) => i.trim()),
         dinner: form.dinner.split(",").map((i) => i.trim()),
       };
-      await axios.post("http://localhost:5000/api/menu", updatedData);
-      const res = await axios.get("http://localhost:5000/api/menu");
+await API.post("/menu", updatedData);
+const res = await API.get("/menu");
       setMeals(res.data || []);
       setEditDay(null);
     } catch (err) {

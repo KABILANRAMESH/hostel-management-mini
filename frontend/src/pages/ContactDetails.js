@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import API from "../api"; // ✅ use shared API (no localhost)
+import API from "../api"; 
 
 const ContactDetails = ({ user }) => {
   const [contacts, setContacts] = useState([]);

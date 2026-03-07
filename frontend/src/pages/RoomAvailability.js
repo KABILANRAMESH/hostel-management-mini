@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
+import API from "../api";
 const RoomAvailability = () => {
   const [rooms, setRooms] = useState([]);
   const [search, setSearch] = useState("");
@@ -26,7 +25,7 @@ const RoomAvailability = () => {
   // Fetch rooms from backend
   const fetchRooms = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/rooms");
+const res = await API.get("/rooms");
       setRooms(res.data);
     } catch (err) {
       console.error("Error fetching rooms:", err);
@@ -40,8 +39,8 @@ const RoomAvailability = () => {
   // Add new room
   const saveNewRoom = async () => {
     try {
-      await axios.post("http://localhost:5000/api/rooms", newRoomData);
-      const res = await axios.get("http://localhost:5000/api/rooms");
+await API.post("/rooms", newRoomData);
+const res = await API.get("/rooms");
       setRooms(res.data);
       setAddModal(false);
       setNewRoomData({ number: "", status: "Available", occupants: [] });
@@ -51,19 +50,16 @@ const RoomAvailability = () => {
   };
 
   // Edit existing room
-  const saveRoomEdit = async () => {
-    try {
-      await axios.put(
-        `http://localhost:5000/api/rooms/${editRoom._id}`,
-        editRoomData
-      );
-      const res = await axios.get("http://localhost:5000/api/rooms");
-      setRooms(res.data);
-      setEditRoom(null);
-    } catch (err) {
-      console.error("Edit room error:", err.response?.data || err.message);
-    }
-  };
+const saveRoomEdit = async () => {
+  try {
+    await API.put(`/rooms/${editRoom._id}`, editRoomData);
+    const res = await API.get("/rooms");
+    setRooms(res.data);
+    setEditRoom(null);
+  } catch (err) {
+    console.error("Edit room error:", err.response?.data || err.message);
+  }
+};
 
   const filteredRooms = rooms.filter((room) => {
     const matchesSearch =

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-
+import API from "../api";
 const Laundry = ({ user }) => {
   const [laundries, setLaundries] = useState([]);
   const [laundryForm, setLaundryForm] = useState({
@@ -14,8 +13,7 @@ const Laundry = ({ user }) => {
 
   const fetchLaundries = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/laundry");
-      const all = Array.isArray(res.data) ? res.data : [];
+const res = await API.get("/laundry");      const all = Array.isArray(res.data) ? res.data : [];
       setLaundries(all);
     } catch (err) {
       console.error("❌ Error fetching laundries:", err);
@@ -29,7 +27,7 @@ const Laundry = ({ user }) => {
       return alert("⚠️ Fill all fields!");
 
     try {
-      await axios.post("http://localhost:5000/api/laundry/add", laundryForm);
+await API.post("/laundry/add", laundryForm);
       fetchLaundries();
       setLaundryForm({
         studentName: "",
@@ -46,7 +44,7 @@ const Laundry = ({ user }) => {
 
   const updateLaundryStatus = async (id, newStatus, pickupDate = null) => {
     try {
-      await axios.put(`http://localhost:5000/api/laundry/update/${id}`, {
+     await API.put(`/laundry/update/${id}`, {
         status: newStatus,
         pickupDate,
       });

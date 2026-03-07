@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-
+import API from "../api";
 const BiometricDetails = () => {
   const [records, setRecords] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/biometric")
-      .then(res => setRecords(res.data))
+API.get("/biometric")
+
+.then(res => setRecords(res.data))
       .catch(err => console.error(err));
   }, []);
 
